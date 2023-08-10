@@ -60,7 +60,7 @@ Next write a matrix analog of exponentiation by squaring
 (tuple) fibonacci_sequence(int n, int k) method_id {
   (int f', int f, _, _) = mat_pow(1, 1, 1, 0, n);
 
-  int t = empty_tuple();
+  tuple t = empty_tuple();
   t~push(f);
   if (k == 0) {
     return t;
