@@ -40,4 +40,28 @@ describe('Task5', () => {
         const res = await task5.getFibonacciSequence(0n, 10n);
         console.log(res);
     });
+
+    it("n = 201, k = 4", async () => {
+        const res = await task5.getFibonacciSequence(201n, 4n);
+        console.log(res);
+
+        // expect(res).toEqual([
+        //     453973694165307953197296969697410619233826n,
+        //     734544867157818093234908902110449296423351n,
+        //     1188518561323126046432205871807859915657177n,
+        //     1923063428480944139667114773918309212080528n
+        // ]);
+    });
+
+    it("n = 1, k = 3", async () => {
+        const res = await task5.getFibonacciSequence(0n, 10n);
+        console.log(res);
+
+        // expect(res).toEqual([
+        //     453973694165307953197296969697410619233826n,
+        //     734544867157818093234908902110449296423351n,
+        //     1188518561323126046432205871807859915657177n,
+        //     1923063428480944139667114773918309212080528n
+        // ]);
+    });
 });
