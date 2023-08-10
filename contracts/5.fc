@@ -58,16 +58,24 @@ Next write a matrix analog of exponentiation by squaring
 
 ;; testable
 (tuple) fibonacci_sequence(int n, int k) method_id {
-  (int f', int f, _, _) = mat_pow(1, 1, 1, 0, n);
-
   tuple t = empty_tuple();
-  t~tpush(f);
-  if (k == 2) {
-    t~tpush(f');
+
+  if (k == 0) {
     return t;
   }
-  if (k > 2) {
-    t~tpush(f');
+
+  (int f', int f, _, _) = mat_pow(1, 1, 1, 0, n);
+
+  t~tpush(f);
+  if (k == 1) {
+    return t;
+  }
+
+  t~tpush(f');
+  if (k == 2) {
+    return t;
+  }
+  else {
     int i = 2;
     while (i < k) {
         t~tpush(t.at(i - 1) + t.at(i - 2));
