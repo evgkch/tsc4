@@ -13,11 +13,68 @@
   1923063428480944139667114773918309212080528]
 -}
 
+(int) tlen (tuple t) asm "TLEN";
+forall X -> (tuple) to_tuple (X x) asm "NOP";
+
 () recv_internal() {
 }
 
+{-
+The main idea is to use matrices
+Let Un+1 = [Fn+1, Fn] is a vector where Fn - n-th Fibonacci number;
+So U0 = [1, 0] by defenition;
+Let A = [[1, 1], [1, 0]] - operator
+Then Un+1 = A^n U0
+
+Proof (induction):
+Un+1 = A * Un = A ^ 2 * Un-1 = ... = A ^ n * U0
+
+Next write a matrix analog of exponentiation by squaring
+-}
+(int, int, int, int) mat_pow(int a, int b, int c, int d, int e) impure {
+
+    if (e == 0) {
+        return (1, 0, 0, 1);
+    }
+
+    if (e == 1) {
+        return (a, b, c, d);
+    }
+
+    (int x, int y, int z, int w) = mat_pow(a, b, c, d, e >> 1);
+
+    ;; gas economy
+    int yz = y * z;
+    int xw = x + w;
+
+    (x, y, z, w) = (x * x + yz, y * xw, z * xw, w * w + yz);
+
+
+    if ((e & 1) == 1) {
+        (x, y, z, w) = (x * a + y * c, x * b + y * d, z * a + w * c, z * b + w * d);
+    }
+
+    return (x, y, z, w);
+}
+
 ;; testable
-(tuple) fibonacci_sequence (int n, int k) method_id {
-  return null();
+(tuple) fibonacci_sequence(int n, int k) method_id {
+  (int f', int f, _, _) = mat_pow(1, 1, 1, 0, n);
+
+  if (k == 0) {
+    return to_tuple([f]);
+  }
+  if (k == 1) {
+    return to_tuple([f, f']);
+  }
+  else {
+    tuple t = to_tuple([f, f']);
+    int i = 2;
+    while (i < k) {
+        t~tpush(t.at(i - 2) + t.at(i - 1));
+        i = i + 1;
+    }
+    return t;
+  }
 }
 

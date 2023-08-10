@@ -35,4 +35,9 @@ describe('Task5', () => {
         // the check is done inside beforeEach
         // blockchain and task5 are ready to use
     });
+
+    it('n = 10, k = 0', async () => {
+        const res = await task5.getFibonacciSequence(0n, 10n);
+        console.log(res);
+    });
 });
