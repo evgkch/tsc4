@@ -62,20 +62,18 @@ Next write a matrix analog of exponentiation by squaring
 
   tuple t = empty_tuple();
   t~tpush(f);
-  if (k == 0) {
+  if (k == 2) {
+    t~tpush(f');
     return t;
   }
-  t~tpush(f');
-  if (k == 1) {
-    return t;
-  }
-  else {
+  if (k > 2) {
+    t~tpush(f');
     int i = 2;
     while (i < k) {
-        t~tpush(t.at(i - 2) + t.at(i - 1));
+        t~tpush(t.at(i - 1) + t.at(i - 2));
         i = i + 1;
     }
     return t;
   }
+  return t;
 }
-

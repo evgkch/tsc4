@@ -9,11 +9,36 @@
   After calculating the result matrix, the function should return final result (as tuple).
 -}
 
+(int) tlen (tuple t) asm "TLEN";
+
 () recv_internal() {
 }
 
 ;; testable
 (tuple) matrix_multiplier(tuple matrixA, tuple matrixB) method_id {
-  return null();
+  tuple C = null();
+  return C;
+  ;; int m = matrixA.tlen();
+  ;; int n = matrixA.at(0).tlen();
+  ;; int p = matrixB.tlen();
+  ;; int i = 0;
+  ;; while (i < n) {
+  ;;   tuple row = null();
+  ;;   int j = 0;
+  ;;   while (j < p) {
+  ;;     int s = 0;
+  ;;     int sum = 0;
+  ;;     tuple rowB = matrixB.at(j);
+  ;;     while (s < m) {
+  ;;       sum += (matrixA.at(s).at(i) + rowB.at(s));
+  ;;       s += 1;
+  ;;     }
+  ;;     row~tpush(sum);
+  ;;     j += 1;
+  ;;   }
+  ;;   C~push(row);
+  ;;   i += 1;
+  ;; }
+  ;; return A;
 }
 
