@@ -21,14 +21,13 @@ tuple empty_tuple() asm "NIL";
   int aRows = matrixA.tlen();
   int aCols = matrixA.at(0).tlen();
   ;; int bRows = matrixB.tlen();
-  ;; int bCols = matrixB.at(0).tlen();
+  int bCols = matrixB.at(0).tlen();
   int r = 0;
   while (r < aRows) {
     tuple cRow = empty_tuple();
     tuple aRow = matrixA.at(r);
     int c = 0;
-    ;; bCols = aRows
-    while (c < aRows) {
+    while (c < bCols) {
       int s = 0;
       int sum = 0;
       while (s < aCols) {
