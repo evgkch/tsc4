@@ -6,10 +6,31 @@
   this branch should be returned. Return empty cell if the branch is not found.
 -}
 
+global cell target;
+
 () recv_internal() {
+}
+
+() helper(int hash, cell tree) impure {
+    if (hash == tree.cell_hash()) {
+        target = tree;
+        return ();
+    }
+
+    if (tree.cell_null?()) {
+        return ();
+    }
+
+    slice ds = tree.begin_parse();
+    while(~ ds.slice_refs_empty?()) {
+        helper(hash, ds~load_ref());
+    }
+
+    return ();
 }
 
 ;; testable
 (cell) find_branch_by_hash(int hash, cell tree) method_id {
-  return begin_cell().end_cell();
+  helper(hash, tree);
+  return target.cell_null?() ? begin_cell().end_cell() : target;
 }
