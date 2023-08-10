@@ -1,5 +1,3 @@
-#include "imports/stdlib.fc";
-
 {-
   TASK 5 - Fibonacci sequence
   Implement a function that generates the Fibonacci
@@ -15,8 +13,7 @@
   1923063428480944139667114773918309212080528]
 -}
 
-(int) tlen (tuple t) asm "TLEN";
-forall X -> (tuple) to_tuple (X x) asm "NOP";
+tuple empty_tuple() asm "NIL";
 
 () recv_internal() {
 }
