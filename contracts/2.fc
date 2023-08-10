@@ -10,35 +10,36 @@
 -}
 
 (int) tlen (tuple t) asm "TLEN";
+tuple empty_tuple() asm "NIL";
 
 () recv_internal() {
 }
 
 ;; testable
 (tuple) matrix_multiplier(tuple matrixA, tuple matrixB) method_id {
-  tuple C = null();
+  tuple C = empty_tuple();
+  int aRows = matrixA.tlen();
+  int aCols = matrixA.at(0).tlen();
+  ;; int bRows = matrixB.tlen();
+  int bCols = matrixB.at(0).tlen();
+  int r = 0;
+  while (r < aRows) {
+    tuple cRow = empty_tuple();
+    tuple aRow = matrixA.at(r);
+    int c = 0;
+    while (c < bCols) {
+      int s = 0;
+      int sum = 0;
+      while (s < aCols) {
+        sum += (aRow.at(s) * matrixA.at(s).at(c));
+        s += 1;
+      }
+      cRow~tpush(sum);
+      c += 1;
+    }
+    C~tpush(cRow);
+    r += 1;
+  }
   return C;
-  ;; int m = matrixA.tlen();
-  ;; int n = matrixA.at(0).tlen();
-  ;; int p = matrixB.tlen();
-  ;; int i = 0;
-  ;; while (i < n) {
-  ;;   tuple row = null();
-  ;;   int j = 0;
-  ;;   while (j < p) {
-  ;;     int s = 0;
-  ;;     int sum = 0;
-  ;;     tuple rowB = matrixB.at(j);
-  ;;     while (s < m) {
-  ;;       sum += (matrixA.at(s).at(i) + rowB.at(s));
-  ;;       s += 1;
-  ;;     }
-  ;;     row~tpush(sum);
-  ;;     j += 1;
-  ;;   }
-  ;;   C~push(row);
-  ;;   i += 1;
-  ;; }
-  ;; return A;
 }
 
