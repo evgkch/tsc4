@@ -31,7 +31,7 @@ tuple empty_tuple() asm "NIL";
       int s = 0;
       int sum = 0;
       while (s < aCols) {
-        sum += (aRow.at(s) * matrixA.at(s).at(c));
+        sum += (aRow.at(s) * matrixB.at(s).at(c));
         s += 1;
       }
       cRow~tpush(sum);

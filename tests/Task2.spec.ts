@@ -1,8 +1,22 @@
 import { Blockchain, SandboxContract } from '@ton-community/sandbox';
-import { Cell, toNano } from 'ton-core';
+import { Cell, toNano, Tuple, TupleBuilder, TupleItem, TupleReader } from 'ton-core';
 import { Task2 } from '../wrappers/Task2';
 import '@ton-community/test-utils';
 import { compile } from '@ton-community/blueprint';
+
+function mat2Tuple(mat: bigint[][]) {
+    return mat.map(row => ({ type: 'tuple', items: row.map(value => ({ type: 'int', value })) }) as TupleItem);
+}
+
+function tuple2Mat(reader: TupleReader) {
+    const res = [];
+    while(reader.remaining) {
+        const { items } = reader.pop() as Tuple;
+        // @ts-ignore
+        res.push(items.map((item) => item.value));
+    }
+    return res;
+}
 
 describe('Task2', () => {
     let code: Cell;
@@ -34,5 +48,22 @@ describe('Task2', () => {
     it('should deploy', async () => {
         // the check is done inside beforeEach
         // blockchain and task2 are ready to use
+    });
+
+
+    it('test', async () => {
+        const A: TupleItem[] = mat2Tuple([[1n,2n], [3n,4n]]);
+        const B: TupleItem[] = mat2Tuple([[1n,2n], [3n,4n]]);
+        const res = await task2.getMatrixMultiplier(A, B);
+        console.log(tuple2Mat(res));
+
+    });
+
+    it('test', async () => {
+        const A: TupleItem[] = mat2Tuple([[1n,2n], [3n,4n], [5n,6n]]);
+        const B: TupleItem[] = mat2Tuple([[1n,2n,3n], [4n,5n,6n]]);
+        const res = await task2.getMatrixMultiplier(A, B);
+        console.log(tuple2Mat(res));
+
     });
 });

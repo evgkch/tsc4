@@ -43,7 +43,7 @@ describe('Task5', () => {
 
     it('n = 10, k = 0', async () => {
         const res = await task5.getFibonacciSequence(0n, 10n);
-        console.log(res); // should be [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+       console.log(res); // should be [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
     });
 
     it("n = 201, k = 4", async () => {
@@ -60,6 +60,7 @@ describe('Task5', () => {
     it("n = 0, k = 255", async () => {
         const res = await task5.getFibonacciSequence(0n, 255n);
         console.log(res);
+
         // should work
     });
 
