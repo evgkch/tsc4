@@ -61,11 +61,11 @@ Next write a matrix analog of exponentiation by squaring
   (int f', int f, _, _) = mat_pow(1, 1, 1, 0, n);
 
   tuple t = empty_tuple();
-  t~push(f);
+  t~tpush(f);
   if (k == 0) {
     return t;
   }
-  t~push(f');
+  t~tpush(f');
   if (k == 1) {
     return t;
   }
