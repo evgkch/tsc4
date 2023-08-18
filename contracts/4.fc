@@ -9,19 +9,59 @@
 () recv_internal() {
 }
 
+(cell) helper_encrypt(int start, int shift, slice text) {
+  builder b = begin_cell();
+  if (start) {
+    b = b.store_uint(0, 32);
+  }
+  cell tail = null();
+  if (~ text.slice_refs_empty?()) {
+    tail = helper_encrypt(0, shift, text~load_ref().begin_parse());
+  }
+  while (~ text.slice_data_empty?()) {
+    int x = text~load_uint(8);
+    x = (x + shift) % 128;
+    b = b.store_uint(x, 8);
+  }
+  if (~ tail.cell_null?()) {
+    b = b.store_ref(tail);
+  }
+  return b.end_cell();
+}
+
+(cell) helper_decrypt(int start, int shift, slice text) {
+  builder b = begin_cell();
+  if (start) {
+    b = b.store_uint(0, 32);
+  }
+  cell tail = null();
+  if (~ text.slice_refs_empty?()) {
+    tail = helper_decrypt(0, shift, text~load_ref().begin_parse());
+  }
+  while (~ text.slice_data_empty?()) {
+    int x = text~load_uint(8);
+    x = (x + 128 - (shift % 128)) % 128;
+    b = b.store_uint(x, 8);
+  }
+  if (~ tail.cell_null?()) {
+    b = b.store_ref(tail);
+  }
+  return b.end_cell();
+}
+
 ;; testable
 (cell) caesar_cipher_encrypt(int shift, cell text) method_id {
-  ;; slice ts = text.begin_parse();
-  ;; ts~skip_bits(32);
-  ;; builder t = begin_cell().store_uint(0, 32);
-  ;; repeat(141) {
-
-  ;; }
-  return begin_cell().end_cell();
+  slice ts = text.begin_parse();
+  ts~skip_bits(32);
+  cell t = helper_encrypt(-1, shift, ts);
+  return t;
 }
 
 ;; testable
 (cell) caesar_cipher_decrypt(int shift, cell text) method_id {
-  return begin_cell().end_cell();
+  slice ts = text.begin_parse();
+  ts~skip_bits(32);
+  cell t = helper_decrypt(-1, shift, ts);
+  return t;
 }
 
