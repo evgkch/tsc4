@@ -37,13 +37,15 @@ describe('Task4', () => {
     });
 
     it("simple test", async () => {
-        const t = '0b10000000000000000000000000000000010110100100000110000000';
+        const t = '0x415a';
         const rand = BigInt(t);
         console.log(rand.toString(16));
 
-        const text = beginCell().storeUint(rand, rand.toString(2).length).endCell();
+        const text = beginCell().storeUint(0, 32).storeUint(rand, 16).endCell();
         const target = await task4.get_caesar_cipher_encrypt(20n, text);
-        console.log(target)
+        const inv = await task4.get_caesar_cipher_decrypt(20n, target);
+        console.log(target);
+        console.log(inv);
         //expect(BigInt(target.beginParse().loadUint(344))).toBe(BigInt(x));
     });
 

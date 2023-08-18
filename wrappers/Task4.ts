@@ -32,4 +32,9 @@ export class Task4 implements Contract {
         return result.stack.readCell();
     }
 
+    async get_caesar_cipher_decrypt(provider: ContractProvider, shift: bigint, text: Cell) {
+        const result = await provider.get('caesar_cipher_decrypt', [{ type: 'int', value: shift }, { type: 'cell', cell: text }]);
+        return result.stack.readCell();
+    }
+
 }
