@@ -19,9 +19,9 @@
     tail = helper_encrypt(0, shift, text~load_ref().begin_parse());
   }
   while (~ text.slice_data_empty?()) {
-    int x = text~load_uint(8);
+    int x = text~load_uint(7);
     x = (x + shift) % 128;
-    b = b.store_uint(x, 8);
+    b = b.store_uint(x, 7);
   }
   if (~ tail.cell_null?()) {
     b = b.store_ref(tail);
@@ -39,9 +39,14 @@
     tail = helper_decrypt(0, shift, text~load_ref().begin_parse());
   }
   while (~ text.slice_data_empty?()) {
-    int x = text~load_uint(8);
-    x = (x + 128 - (shift % 128)) % 128;
-    b = b.store_uint(x, 8);
+    int x = text~load_uint(7);
+    if (x - shift < 0) {
+      x = (x + 128 - shift) % 128;
+    }
+    else {
+      x = (x - shift) % 128;
+    }
+    b = b.store_uint(x, 7);
   }
   if (~ tail.cell_null?()) {
     b = b.store_ref(tail);
@@ -51,6 +56,9 @@
 
 ;; testable
 (cell) caesar_cipher_encrypt(int shift, cell text) method_id {
+  if (shift == 0) {
+    return text;
+  }
   slice ts = text.begin_parse();
   ts~skip_bits(32);
   cell t = helper_encrypt(-1, shift, ts);
@@ -59,6 +67,9 @@
 
 ;; testable
 (cell) caesar_cipher_decrypt(int shift, cell text) method_id {
+  if (shift == 0) {
+    return text;
+  }
   slice ts = text.begin_parse();
   ts~skip_bits(32);
   cell t = helper_decrypt(-1, shift, ts);
