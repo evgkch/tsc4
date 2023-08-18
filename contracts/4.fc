@@ -11,6 +11,12 @@
 
 ;; testable
 (cell) caesar_cipher_encrypt(int shift, cell text) method_id {
+  ;; slice ts = text.begin_parse();
+  ;; ts~skip_bits(32);
+  ;; builder t = begin_cell().store_uint(0, 32);
+  ;; repeat(141) {
+
+  ;; }
   return begin_cell().end_cell();
 }
 
