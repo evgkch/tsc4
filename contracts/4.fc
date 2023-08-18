@@ -9,6 +9,18 @@
 () recv_internal() {
 }
 
+int is_small(int x) inline {
+  return (x >= 0x61) & (x <= 0x7a);
+}
+
+int is_capital(int x) inline {
+  return (x >= 0x41) & (x <= 0x5a);
+}
+
+int is_alphabet(int x) inline {
+  return (x >> 7) == 0;
+}
+
 (cell) helper_encrypt(int start, int shift, slice text) {
   builder b = begin_cell();
   if (start) {
@@ -19,9 +31,16 @@
     tail = helper_encrypt(0, shift, text~load_ref().begin_parse());
   }
   while (~ text.slice_data_empty?()) {
-    int x = text~load_uint(7);
-    x = (x + shift) % 128;
-    b = b.store_uint(x, 7);
+    int x = text~load_uint(8);
+    if (is_alphabet(x)) {
+      if (is_small(x)) {
+        x = (0x61 + ((x + shift) % 26)) ^ 128;
+      }
+      if (is_capital(x)) {
+        x = (0x41 + ((x + shift) % 26)) ^ 128;
+      }
+    }
+    b = b.store_uint(x, 8);
   }
   if (~ tail.cell_null?()) {
     b = b.store_ref(tail);
@@ -39,14 +58,25 @@
     tail = helper_decrypt(0, shift, text~load_ref().begin_parse());
   }
   while (~ text.slice_data_empty?()) {
-    int x = text~load_uint(7);
-    if (x - shift < 0) {
-      x = (x + 128 + shift) % 128;
+    int x = text~load_uint(8);
+    if (is_alphabet(x)) {
+      x = x & 127;
+      if (is_small(x)) {
+        int y = x - shift;
+        if (y < 0) {
+          y = x + 26 + shift;
+        }
+        x = 0x61 + (y % 26);
+      }
+      if (is_capital(x)) {
+        int y = x - shift;
+        if (y < 0) {
+          y = x + 26 + shift;
+        }
+        x = 0x41 + (y % 26);
+      }
     }
-    else {
-      x = (x - shift) % 128;
-    }
-    b = b.store_uint(x, 7);
+    b = b.store_uint(x, 8);
   }
   if (~ tail.cell_null?()) {
     b = b.store_ref(tail);
