@@ -41,7 +41,7 @@
   while (~ text.slice_data_empty?()) {
     int x = text~load_uint(7);
     if (x - shift < 0) {
-      x = (x + 128 - shift) % 128;
+      x = (x + 128 + shift) % 128;
     }
     else {
       x = (x - shift) % 128;
