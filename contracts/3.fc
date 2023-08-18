@@ -276,12 +276,19 @@ builder ll_store_uint(builder b, int value, int len) {
     }
   }
 
-  if (index > 0) {
-    b = b.ll_store_uint(target, index);
-    bc = bc + index;
+  ;; if (index > 0) {
+  ;;   b = b.ll_store_uint(target, index);
+  ;;   bc = bc + index;
+  ;; }
+
+  if (chunks) {
+    (cell c, _, _) = reverse_cell(null(), b.end_cell(), bc % 1023);
+    return c;
   }
-  (cell c, _, _) = reverse_cell(null(), b.end_cell(), bc % 1024);
-  return c;
+  else {
+    return b.end_cell();
+  }
+
 
 }
 

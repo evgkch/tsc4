@@ -61,11 +61,15 @@ describe('Task3', () => {
     });
 
     it("big test", async () => {
-        const rand = BigInt("0b10" + Array.from({ length: 1021 }, () => Math.random() > 0.5 ? 0 : 1).join(''));
-        console.log(rand);
+        const rand = BigInt("0b" + Array.from({ length: 1023 }, () => 1).join(''));
+        let res = BigInt("0b" + Array.from({ length: 1023 }, (_, i) => i & 1 ? 0 : 1).join(''));
+        res -= 1n;
+        console.log(res.toString(2), rand.toString(2));
         const node = beginCell().storeUint(rand, 1023).endCell();
         const linked_list = beginCell().storeUint(rand, 1023).storeRef(node).endCell();
         const target = await task3.getFindAndReplace(0b11n, 0b10n, linked_list);
-        console.log(target);
+        console.log(target.beginParse().loadBits(1023).toString());
+
+        //expect(BigInt(target.beginParse().loadUint(102))).toBe(res);
     });
 });
