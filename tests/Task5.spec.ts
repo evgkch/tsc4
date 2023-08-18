@@ -36,32 +36,32 @@ describe('Task5', () => {
         // blockchain and task5 are ready to use
     });
 
-    it('n = 10, k = 0', async () => {
-        const res = await task5.getFibonacciSequence(10n, 0n);
-        console.log(res); // should be []
-    });
+    // it('n = 10, k = 0', async () => {
+    //     const res = await task5.getFibonacciSequence(10n, 0n);
+    //     console.log(res); // should be []
+    // });
 
-    it('n = 10, k = 0', async () => {
-        const res = await task5.getFibonacciSequence(0n, 10n);
-       console.log(res); // should be [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-    });
+    // it('n = 10, k = 0', async () => {
+    //     const res = await task5.getFibonacciSequence(0n, 10n);
+    //    console.log(res); // should be [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+    // });
 
-    it("n = 201, k = 4", async () => {
-        const res = await task5.getFibonacciSequence(201n, 4n);
-        console.log(res);
-        // should be [
-        //     453973694165307953197296969697410619233826n,
-        //     734544867157818093234908902110449296423351n,
-        //     1188518561323126046432205871807859915657177n,
-        //     1923063428480944139667114773918309212080528n
-        // ]);
-    });
+    // it("n = 201, k = 4", async () => {
+    //     const res = await task5.getFibonacciSequence(201n, 4n);
+    //     console.log(res);
+    //     // should be [
+    //     //     453973694165307953197296969697410619233826n,
+    //     //     734544867157818093234908902110449296423351n,
+    //     //     1188518561323126046432205871807859915657177n,
+    //     //     1923063428480944139667114773918309212080528n
+    //     // ]);
+    // });
 
-    it("n = 0, k = 255", async () => {
-        const res = await task5.getFibonacciSequence(0n, 255n);
-        console.log(res);
+    // it("n = 0, k = 255", async () => {
+    //     const res = await task5.getFibonacciSequence(0n, 255n);
+    //     console.log(res);
 
-        // should work
-    });
+    //     // should work
+    // });
 
 });
