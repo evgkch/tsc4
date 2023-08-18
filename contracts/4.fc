@@ -33,12 +33,13 @@ int is_alphabet(int x) inline {
   while (~ text.slice_data_empty?()) {
     int x = text~load_uint(8);
     if (is_alphabet(x)) {
-      if (is_small(x)) {
-        x = 0x61 + (((x - 0x61) - shift) % 26);
-      }
-      if (is_capital(x)) {
-        x = 0x41 + (((x - 0x41) - shift) % 26);
-      }
+      x = (x + shift) % 128;
+      ;; if (is_small(x)) {
+      ;;   x = 0x61 + (((x - 0x61) + shift) % 26);
+      ;; }
+      ;; if (is_capital(x)) {
+      ;;   x = 0x41 + (((x - 0x41) + shift) % 26);
+      ;; }
     }
     b = b.store_uint(x, 8);
   }
@@ -60,12 +61,13 @@ int is_alphabet(int x) inline {
   while (~ text.slice_data_empty?()) {
     int x = text~load_uint(8);
     if (is_alphabet(x)) {
-      if (is_small(x)) {
-        x = 0x61 + (((x - 0x61) + shift) % 26);
-      }
-      if (is_capital(x)) {
-        x = 0x41 + (((x - 0x41) + shift) % 26);
-      }
+      x = (x - shift) % 128;
+      ;; if (is_small(x)) {
+      ;;   x = 0x61 + (((x - 0x61) + shift) % 26);
+      ;; }
+      ;; if (is_capital(x)) {
+      ;;   x = 0x41 + (((x - 0x41) + shift) % 26);
+      ;; }
     }
     b = b.store_uint(x, 8);
   }
