@@ -16,6 +16,8 @@
 
 -}
 
+;; solution from https://github.com/Gusarich/tsc4/blob/main/contracts/3.fc
+
 int ubit_size(int) asm "ubit_size";
 int test_builder(builder, int) asm "BCHKBITSQ";
 slice substr(slice, int, int) asm "SDSUBSTR";
