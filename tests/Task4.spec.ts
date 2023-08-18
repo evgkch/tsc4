@@ -49,4 +49,24 @@ describe('Task4', () => {
         //expect(BigInt(target.beginParse().loadUint(344))).toBe(BigInt(x));
     });
 
+    it("simple test", async () => {
+        const rand = (x: number) => BigInt("0b" + Array.from({ length: x * 8 }, () => Math.random() > 0.5 ? 1 : 0).join(''));
+
+        const x = rand(123);
+        const y = rand(127);
+        const z = rand(127);
+        console.log(x.toString(16));
+        console.log(y.toString(16));
+        console.log(z.toString(16));
+
+        const sub2 = beginCell().storeUint(z, 127 * 8).endCell();
+        const sub = beginCell().storeUint(y, 127 * 8).storeRef(sub2).endCell();
+        const text = beginCell().storeUint(0, 32).storeUint(x, 123 * 8).storeRef(sub).endCell();
+        const target = await task4.get_caesar_cipher_encrypt(20n, text);
+        const inv = await task4.get_caesar_cipher_decrypt(20n, target);
+        console.log(target);
+        console.log(inv);
+        //expect(BigInt(target.beginParse().loadUint(344))).toBe(BigInt(x));
+    });
+
 });
